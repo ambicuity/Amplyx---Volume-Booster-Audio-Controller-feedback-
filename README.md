@@ -25,3 +25,13 @@ Include:
 ## Contact
 
 - `contact@riteshrana.engineer`
+
+## Maintainer Setup
+
+For cross-repository sync to work, configure this repository secret:
+
+- `PRIVATE_REPO_SYNC_TOKEN`: fine-grained PAT with permission to dispatch events to `ambicuity/Amplyx---Volume-Booster-Audio-Controller`.
+
+In the private source repository, also configure:
+
+- `PUBLIC_REPO_SYNC_TOKEN`: fine-grained PAT with permission to dispatch back to this feedback repository.
