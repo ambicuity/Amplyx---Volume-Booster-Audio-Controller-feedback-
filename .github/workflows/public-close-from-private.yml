@@ -1,0 +1,68 @@
+name: Public Close From Private
+
+on:
+  repository_dispatch:
+    types: [private_issue_closed, private_issue_reopened]
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  sync-state:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Apply private lifecycle state to public issue
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const payload = context.payload.client_payload || {};
+            const issueNumber = Number(payload.public_issue_number || 0);
+            const trackingId = String(payload.tracking_id || '').trim();
+            const statusNote = String(payload.status_note || '').trim();
+
+            if (!issueNumber) {
+              core.setFailed('Missing public_issue_number in dispatch payload.');
+              return;
+            }
+
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const shouldClose = context.payload.action === 'private_issue_closed';
+
+            const issue = await github.rest.issues.get({ owner, repo, issue_number: issueNumber });
+            const labels = new Set((issue.data.labels || []).map((l) => l.name));
+
+            if (shouldClose) {
+              labels.add('closed-via-private');
+              labels.delete('in-private-triage');
+            } else {
+              labels.add('in-private-triage');
+              labels.delete('closed-via-private');
+            }
+
+            await github.rest.issues.update({
+              owner,
+              repo,
+              issue_number: issueNumber,
+              state: shouldClose ? 'closed' : 'open',
+              labels: Array.from(labels)
+            });
+
+            const marker = '<!-- amplyx-sync:private-state -->';
+            const message = [
+              marker,
+              trackingId ? `Tracking ID: ${trackingId}` : 'Tracking ID: unavailable',
+              shouldClose
+                ? 'Status update: this issue was resolved in private maintainer workflow. Fixes will be reflected in future release notes.'
+                : 'Status update: this issue has been reopened in private maintainer workflow for further investigation.',
+              statusNote ? `Maintainer note: ${statusNote}` : ''
+            ].filter(Boolean).join('\n');
+
+            await github.rest.issues.createComment({
+              owner,
+              repo,
+              issue_number: issueNumber,
+              body: message
+            });

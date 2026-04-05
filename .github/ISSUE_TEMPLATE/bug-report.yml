@@ -1,0 +1,52 @@
+name: Bug Report
+about: Report a reproducible bug
+title: "[Bug]: "
+labels: ["bug", "triage"]
+body:
+  - type: input
+    id: browser_version
+    attributes:
+      label: Browser Version
+      placeholder: e.g. Chrome 126.0.x
+    validations:
+      required: true
+  - type: input
+    id: extension_version
+    attributes:
+      label: Extension Version
+      placeholder: e.g. 1.0.0
+    validations:
+      required: true
+  - type: input
+    id: site
+    attributes:
+      label: Site/App URL or Hostname
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction Steps
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual Behavior
+    validations:
+      required: true
+  - type: textarea
+    id: attachments
+    attributes:
+      label: Screenshots/Logs
+      description: Attach screenshots, console logs, or short recordings where possible.
+  - type: markdown
+    attributes:
+      value: |
+        Privacy note: do not include secrets, auth tokens, or personal identifiers in public reports.

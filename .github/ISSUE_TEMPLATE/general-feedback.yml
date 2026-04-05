@@ -1,0 +1,39 @@
+name: General Feedback
+about: Share general product feedback
+title: "[Feedback]: "
+labels: ["feedback", "triage"]
+body:
+  - type: input
+    id: browser_version
+    attributes:
+      label: Browser Version
+    validations:
+      required: true
+  - type: input
+    id: extension_version
+    attributes:
+      label: Extension Version
+    validations:
+      required: true
+  - type: input
+    id: site
+    attributes:
+      label: Site/App URL or Hostname (optional)
+  - type: textarea
+    id: feedback
+    attributes:
+      label: Feedback
+    validations:
+      required: true
+  - type: textarea
+    id: expected_actual
+    attributes:
+      label: Expected vs Actual (optional)
+  - type: textarea
+    id: attachments
+    attributes:
+      label: Screenshots/Logs (optional)
+  - type: markdown
+    attributes:
+      value: |
+        Privacy note: this is a public repository. Please avoid sensitive data.

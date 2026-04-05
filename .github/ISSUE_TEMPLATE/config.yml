@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Sensitive Security Report
+    url: mailto:contact@riteshrana.engineer
+    about: Report security vulnerabilities or sensitive privacy issues privately.
+  - name: Technical Contact
+    url: mailto:contact@riteshrana.engineer
+    about: General support contact.

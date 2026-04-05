@@ -1,0 +1,109 @@
+name: Public Feedback Intake
+
+on:
+  issues:
+    types: [opened, edited, reopened]
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  mirror-to-private:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ensure labels and tracking comment
+        id: tracking
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const issue = context.payload.issue;
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+
+            async function ensureLabel(name, color, description) {
+              try {
+                await github.rest.issues.getLabel({ owner, repo, name });
+              } catch (error) {
+                if (error.status !== 404) throw error;
+                await github.rest.issues.createLabel({ owner, repo, name, color, description });
+              }
+            }
+
+            await ensureLabel('synced-to-private', '1D76DB', 'Mirrored into private maintainer repository');
+            await ensureLabel('in-private-triage', 'FBCA04', 'Maintainers are triaging internally');
+            await ensureLabel('closed-via-private', '8250DF', 'Closed by private maintainer lifecycle sync');
+
+            const { createHash } = require('node:crypto');
+            const trackingId = `AFB-${issue.id}-${createHash('sha256').update(String(issue.node_id)).digest('hex').slice(0, 8).toUpperCase()}`;
+            const marker = '<!-- amplyx-sync:tracking -->';
+            const trackingBody = [
+              marker,
+              `Tracking ID: ${trackingId}`,
+              'Status: synced to private maintainer workflow.',
+              '',
+              'This issue is mirrored internally for implementation tracking. Private details are not exposed publicly.'
+            ].join('\n');
+
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              owner,
+              repo,
+              issue_number: issue.number,
+              per_page: 100
+            });
+
+            const existing = comments.find((c) => (c.body || '').includes(marker));
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner,
+                repo,
+                comment_id: existing.id,
+                body: trackingBody
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner,
+                repo,
+                issue_number: issue.number,
+                body: trackingBody
+              });
+            }
+
+            const labels = new Set((issue.labels || []).map((l) => l.name));
+            labels.add('synced-to-private');
+            labels.add('in-private-triage');
+            labels.delete('closed-via-private');
+
+            await github.rest.issues.update({
+              owner,
+              repo,
+              issue_number: issue.number,
+              labels: Array.from(labels)
+            });
+
+            core.setOutput('tracking_id', trackingId);
+
+      - name: Dispatch issue payload to private repository
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.PRIVATE_REPO_SYNC_TOKEN }}
+          script: |
+            const [owner, repo] = ['ambicuity', 'Amplyx---Volume-Booster-Audio-Controller'];
+            const issue = context.payload.issue;
+            const trackingId = '${{ steps.tracking.outputs.tracking_id }}';
+
+            await github.rest.repos.createDispatchEvent({
+              owner,
+              repo,
+              event_type: 'public_feedback_issue',
+              client_payload: {
+                public_repo: `${context.repo.owner}/${context.repo.repo}`,
+                public_issue_number: issue.number,
+                public_title: issue.title,
+                public_body: issue.body || '',
+                public_author: issue.user?.login || 'unknown',
+                public_state: issue.state,
+                tracking_id: trackingId
+              }
+            });
