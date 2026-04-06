@@ -1,0 +1,63 @@
+name: "✨ Feature Request"
+description: Suggest an improvement for Amplyx
+title: "[Feature]: "
+labels: ["enhancement", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for sharing an idea.
+
+        The more specific your request is, the faster we can evaluate it.
+  - type: input
+    id: browser_version
+    attributes:
+      label: Browser version
+      placeholder: Chrome 126.0.x
+    validations:
+      required: true
+  - type: input
+    id: extension_version
+    attributes:
+      label: Amplyx extension version
+      placeholder: 1.0.0
+    validations:
+      required: true
+  - type: input
+    id: site_url
+    attributes:
+      label: Site or app URL
+      description: Add if this request is site-specific
+      placeholder: https://example.com
+    validations:
+      required: true
+  - type: textarea
+    id: repro_steps
+    attributes:
+      label: Current steps or context
+      description: How you currently use Amplyx when this need appears
+    validations:
+      required: true
+  - type: textarea
+    id: expected_behavior
+    attributes:
+      label: Expected behavior
+      description: What would success look like?
+    validations:
+      required: true
+  - type: textarea
+    id: actual_behavior
+    attributes:
+      label: Current behavior
+      description: What is missing or hard today?
+    validations:
+      required: true
+  - type: textarea
+    id: screenshots_logs
+    attributes:
+      label: Screenshots or mockups (optional)
+      description: Visual examples are helpful when possible
+  - type: markdown
+    attributes:
+      value: |
+        Privacy note: avoid posting sensitive account or personal information.

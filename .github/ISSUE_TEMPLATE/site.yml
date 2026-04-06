@@ -1,0 +1,61 @@
+name: "🌐 Site Compatibility Issue"
+description: Report issues that happen on specific websites or web apps
+title: "[Site]: "
+labels: ["compatibility", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form when Amplyx behaves differently on a specific site.
+  - type: input
+    id: browser_version
+    attributes:
+      label: Browser version
+      placeholder: Chrome 126.0.x
+    validations:
+      required: true
+  - type: input
+    id: extension_version
+    attributes:
+      label: Amplyx extension version
+      placeholder: 1.0.0
+    validations:
+      required: true
+  - type: input
+    id: site_url
+    attributes:
+      label: Site or app URL
+      placeholder: https://example.com
+    validations:
+      required: true
+  - type: textarea
+    id: repro_steps
+    attributes:
+      label: Reproduction steps
+      placeholder: |
+        1. Open site ...
+        2. Start playback ...
+        3. Use Amplyx control ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected_behavior
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual_behavior
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: screenshots_logs
+    attributes:
+      label: Screenshots or logs (optional)
+      description: Include runtime details if available
+  - type: markdown
+    attributes:
+      value: |
+        Privacy note: redact personal account details before uploading screenshots.

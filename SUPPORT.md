@@ -1,13 +1,14 @@
 # Support
 
-## Feedback And Bug Reports
+## Where to get help
 
-Please open issues in this repository using the available issue templates.
+- For bugs, feature requests, and site issues: open a GitHub issue in this repository.
+- For security or sensitive concerns: email contact@riteshrana.engineer.
 
-## Privacy And Sensitive Reports
+## Before opening an issue
 
-Do not post secrets, tokens, account identifiers, or security exploit details in public issues.
+Please search existing issues first and use the closest template so we can help faster.
 
-For sensitive concerns, contact:
+## Privacy reminder
 
-- `contact@riteshrana.engineer`
+This is a public repo. Avoid sharing passwords, tokens, personal data, or account identifiers.

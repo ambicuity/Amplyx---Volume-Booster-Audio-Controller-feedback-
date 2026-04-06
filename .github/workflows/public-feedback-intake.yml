@@ -41,6 +41,7 @@ jobs:
             const trackingBody = [
               marker,
               `Tracking ID: ${trackingId}`,
+              'This issue has been synced internally for review.',
               'Status: synced to private maintainer workflow.',
               '',
               'This issue is mirrored internally for implementation tracking. Private details are not exposed publicly.'

@@ -1,37 +1,41 @@
-# Amplyx Public Feedback Portal
+# Amplyx Public Feedback
 
-This repository is the public feedback intake portal for Amplyx.
+Welcome. This repository is the public feedback portal for the Amplyx Chrome extension.
 
-- Submit bugs, feature requests, compatibility reports, and general feedback here.
-- Maintainers triage and implement work in the private source repository.
-- Public issues are mirrored into private maintainer workflows using safe automation.
+Use this space to report bugs, request features, and share site compatibility issues.
 
-## What Is Public vs Private
+## How to report
 
-- Public here: your submitted issue, discussion, and status updates.
-- Private elsewhere: implementation details, internal triage notes, and sensitive context.
+1. Click **New issue**.
+2. Choose the template that best matches your feedback.
+3. Fill in all required fields.
+4. Submit your issue.
 
-## How To Report Effectively
-
-Include:
+## What to include
 
 - Browser version
 - Extension version
-- Site/app URL or hostname
+- Site/app URL
 - Reproduction steps
-- Expected vs actual behavior
-- Screenshots and logs when available
+- Expected behavior
+- Actual behavior
+- Screenshots/logs (optional but helpful)
+
+## What happens after submission
+
+- Your issue is reviewed and triaged.
+- We may ask follow-up questions if details are missing.
+- Updates are posted directly on your issue thread.
+
+## Response expectations
+
+- Triage usually starts within a few business days.
+- Complex fixes may take longer depending on impact and scope.
+
+## Privacy and safety
+
+This is a public repository. Do not post passwords, tokens, API keys, or personal data.
 
 ## Contact
 
-- `contact@riteshrana.engineer`
-
-## Maintainer Setup
-
-For cross-repository sync to work, configure this repository secret:
-
-- `PRIVATE_REPO_SYNC_TOKEN`: fine-grained PAT with permission to dispatch events to `ambicuity/Amplyx---Volume-Booster-Audio-Controller`.
-
-In the private source repository, also configure:
-
-- `PUBLIC_REPO_SYNC_TOKEN`: fine-grained PAT with permission to dispatch back to this feedback repository.
+- contact@riteshrana.engineer
